@@ -442,7 +442,7 @@ done
 %doc doc/bindists/cdda/readme.txt
 %{_javadir}/%{name}/%{name}_cdda*.jar
 
-%{_jvm_lib_ext_dir}/lib%{name}cdparanoia.so*
+#%{_jvm_lib_ext_dir}/lib%{name}cdparanoia.so*
 
 %files core
 %defattr(-,root,root)
