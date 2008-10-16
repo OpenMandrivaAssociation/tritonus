@@ -95,7 +95,6 @@ Public License.
 %package javadoc
 Summary:	Javadoc for tritonus
 Group:		Development/Java
-PreReq:		coreutils
 
 %description javadoc
 Javadoc for tritonus.
