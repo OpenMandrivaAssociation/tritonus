@@ -52,6 +52,7 @@ BuildRequires:	readline-devel
 BuildRequires:	unzip
 BuildRequires:	update-alternatives
 BuildRequires:	xml-commons-apis
+BuildRequires:  libtool
 Requires:		jakarta-commons-logging
 Requires:		java >= 1.5
 Requires:		jpackage-utils >= 1.5
@@ -440,6 +441,7 @@ done
 %doc doc/cdda.txt
 %doc doc/bindists/cdda/readme.txt
 %{_javadir}/%{name}/%{name}_cdda*.jar
+
 %{_jvm_lib_ext_dir}/lib%{name}cdparanoia.so*
 
 %files core
