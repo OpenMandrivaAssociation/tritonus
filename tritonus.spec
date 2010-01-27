@@ -19,7 +19,7 @@ Summary:		Tritonus - A implementation of the Java Sound API
 URL:			http://www.tritonus.org/
 Group:			Development/Java
 Version:		0.3.7
-Release:		%mkrel 0.0.%{_cvs_version}.2
+Release:		%mkrel 0.0.%{_cvs_version}.3
 License:		LGPL
 Source0:		%{name}-%{version}.tar.bz2
 Source1:		%{name}-Mp3Encoder.java
@@ -32,7 +32,7 @@ Patch5:			%{name}-build-common.diff
 Patch6:			%{name}-build.diff
 BuildRequires:	ant
 BuildRequires:	libalsa-devel >= 0.9
-BuildRequires:	cdparanoia 
+BuildRequires:	libcdda-devel
 BuildRequires:	ncurses-devel
 #BuildRequires:	dos2unix
 BuildRequires:	e2fsprogs-devel
@@ -440,8 +440,7 @@ done
 %doc doc/cdda.txt
 %doc doc/bindists/cdda/readme.txt
 %{_javadir}/%{name}/%{name}_cdda*.jar
-
-#%{_jvm_lib_ext_dir}/lib%{name}cdparanoia.so*
+%{_jvm_lib_ext_dir}/lib%{name}cdparanoia.so*
 
 %files core
 %defattr(-,root,root)
