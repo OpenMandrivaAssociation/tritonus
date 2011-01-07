@@ -6,22 +6,26 @@
 
 # norootforbuild
 
-%define _prefix			/usr
-%define _cvs_version	cvs20080107
 %ifarch x86_64
 %define _jvm_lib_ext_dir	%{_jvmdir}/jre/lib/amd64
 %else
 %define _jvm_lib_ext_dir	%{_jvmdir}/jre/lib/i386
 %endif
+%define _cvs_version	20110107
 
 Name:			tritonus
 Summary:		Tritonus - A implementation of the Java Sound API
 URL:			http://www.tritonus.org/
 Group:			Development/Java
 Version:		0.3.7
-Release:		%mkrel 0.0.%{_cvs_version}.4
+Release:		%mkrel 0.0.%{_cvs_version}.1
 License:		LGPL
-Source0:		%{name}-%{version}.tar.bz2
+# cvs -d:pserver:anonymous@tritonus.cvs.sourceforge.net:/cvsroot/tritonus login
+# cvs -z3 -d:pserver:anonymous@tritonus.cvs.sourceforge.net:/cvsroot/tritonus co tritonus
+# cp -far tritonus tritonus-0.3.7
+# find tritonus-0.3.7 -name CVS -type d -exec rm -fr {} \; 2> /dev/null
+# tar Jcf tritonus-0.3.7.tar.xz tritonus-0.3.7
+Source0:		%{name}-%{version}.tar.xz
 Source1:		%{name}-Mp3Encoder.java
 Patch:			%{name}-configure.in.diff
 Patch1:			%{name}-src-lib-fluidsynth.Makefile.in.diff
@@ -31,6 +35,7 @@ Patch4:			tritonus-removed-code.diff
 Patch5:			%{name}-build-common.diff
 Patch6:			%{name}-build.diff
 BuildRequires:	ant
+BuildRequires:	java-rpmbuild
 BuildRequires:	libalsa-devel >= 0.9
 BuildRequires:	libcdda-devel
 BuildRequires:	ncurses-devel
@@ -72,7 +77,9 @@ Requires:		tritonus-javasequencer
 Requires:		tritonus-jorbis
 Requires:		tritonus-gsm
 Requires:		tritonus-mp3
+%if 0
 Requires:		tritonus-mp3enc
+%endif
 Requires:		tritonus-pvorbis
 Requires:		tritonus-shared
 Requires:		tritonus-src
@@ -328,7 +335,7 @@ Group:		Development/Java
 Contains public classes and SPI instantiation support.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 %patch
 %patch1
 %patch2
@@ -343,8 +350,7 @@ autoreconf -fi
 export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 export CPPFLAGS="$RPM_OPT_FLAGS -fPIC"
 export CXXFLAGS="$RPM_OPT_FLAGS -fPIC"
-%configure \
-	--prefix=%{_prefix}
+%configure
 
 %ant -f build-dtd.xml
 export CLASSPATH=`build-classpath jl jorbis`
@@ -366,10 +372,9 @@ export CLASSPATH=`build-classpath jl jorbis`
 
 %install
 # jars
-%__install -dm 755 %{buildroot}%{_javadir}/%{name}
-%__install -pm 644 dist/*.jar \
-	%{buildroot}%{_javadir}/%{name}
-pushd %{buildroot}%{_javadir}/%{name}
+%__install -dm 755 %{buildroot}%{_javadir}
+%__install -pm 644 dist/*.jar %{buildroot}%{_javadir}
+pushd %{buildroot}%{_javadir}
 	for jar in *-%{version}*; do
 		ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`
 	done
@@ -391,9 +396,7 @@ popd
 
 # link the tritonus-jar files from %{javadir}/%{name} to %{_jvmdir}/jre/lib/ext
 for i in core gsm mp3 remaining share; do
-	%__rm -f %{buildroot}%{_jvmdir}/jre/lib/ext/%{name}_$i.jar
-	%__ln_s %{_javadir}/%{name}/%{name}_$i.jar \
-		%{buildroot}%{_jvmdir}/jre/lib/ext/%{name}_$i.jar
+	%add_jvm_extension %{buildroot}%{_javadir}/%{name}_$i.jar
 done
 
 # directory for native-libraries
@@ -425,54 +428,54 @@ done
 %doc LGPL
 %doc doc/ALSA*  doc/Alsa*
 %doc doc/bindists/alsa/readme.txt
-%{_javadir}/%{name}/%{name}_alsa*.jar
+%{_javadir}/%{name}_alsa*.jar
 %{_jvm_lib_ext_dir}/lib%{name}alsa.so*
 
 %files aos
 %defattr(-,root,root)
 %doc LGPL
 %doc doc/AudioOutput*
-%{_javadir}/%{name}/%{name}_aos*.jar
+%{_javadir}/%{name}_aos*.jar
 
 %files cdda
 %defattr(-,root,root)
 %doc LGPL
 %doc doc/cdda.txt
 %doc doc/bindists/cdda/readme.txt
-%{_javadir}/%{name}/%{name}_cdda*.jar
+%{_javadir}/%{name}_cdda*.jar
 %{_jvm_lib_ext_dir}/lib%{name}cdparanoia.so*
 
 %files core
 %defattr(-,root,root)
 %doc LGPL NEWS README
 %doc doc/%{name}faq.sgml
-%{_javadir}/%{name}/%{name}_core*.jar
+%{_javadir}/%{name}_core*.jar
 %{_jvmdir}/jre/lib/ext/%{name}_core.jar
 #%{_libdir}/lib%{name}common.so*
 
 %files dsp
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_dsp*.jar
+%{_javadir}/%{name}_dsp*.jar
 
 %files esd
 %defattr(-,root,root)
 %doc LGPL
 %doc doc/bindists/esd/readme.txt
-%{_javadir}/%{name}/%{name}_esd*.jar
+%{_javadir}/%{name}_esd*.jar
 %{_jvm_lib_ext_dir}/lib%{name}esd.so*
 
 %files fluidsynth
 %defattr(-,root,root)
 %doc LGPL
 %doc doc/fluidsynth*
-%{_javadir}/%{name}/%{name}_fluidsynth*.jar
+%{_javadir}/%{name}_fluidsynth*.jar
 %{_jvm_lib_ext_dir}/lib%{name}fluid.so*
 
 %files gsm
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_gsm*.jar
+%{_javadir}/%{name}_gsm*.jar
 %{_jvmdir}/jre/lib/ext/%{name}_gsm*.jar
 
 %if 0
@@ -485,24 +488,24 @@ done
 %files javasequencer
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_javasequencer*.jar
+%{_javadir}/%{name}_javasequencer*.jar
 
 %files jorbis
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_jorbis*.jar
+%{_javadir}/%{name}_jorbis*.jar
 
 %files misc
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_remaining*.jar
+%{_javadir}/%{name}_remaining*.jar
 %{_jvmdir}/jre/lib/ext/tritonus_remaining.jar
 
 %files mp3
 %defattr(-,root,root)
 %doc LGPL
 %doc README_mp3
-%{_javadir}/%{name}/%{name}_mp3*.jar
+%{_javadir}/%{name}_mp3*.jar
 %{_jvmdir}/jre/lib/ext/%{name}_mp3.jar
 
 %if 0
@@ -515,22 +518,22 @@ done
 %files pvorbis
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_pvorbis*.jar
+%{_javadir}/%{name}_pvorbis*.jar
 
 %files shared
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_share*.jar
+%{_javadir}/%{name}_share*.jar
 %{_jvmdir}/jre/lib/ext/%{name}_share.jar
 
 %files src
 %defattr(-,root,root)
 %doc LGPL
-%{_javadir}/%{name}/%{name}_src*.jar
+%{_javadir}/%{name}_src*.jar
 
 %files vorbis
 %defattr(-,root,root)
 %doc LGPL
 %doc doc/bindists/vorbis/readme.txt
-%{_javadir}/%{name}/%{name}_vorbis*.jar
+%{_javadir}/%{name}_vorbis*.jar
 %{_jvm_lib_ext_dir}/lib%{name}vorbis.so*
