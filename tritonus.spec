@@ -40,7 +40,7 @@ BuildRequires:	libalsa-devel >= 0.9
 BuildRequires:	libcdda-devel
 BuildRequires:	ncurses-devel
 #BuildRequires:	dos2unix
-BuildRequires:	e2fsprogs-devel
+BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	esound-devel
 BuildRequires:	java-rpmbuild >= 1.5
 BuildRequires:	jlayer
