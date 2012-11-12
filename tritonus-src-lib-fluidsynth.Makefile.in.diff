@@ -1,0 +1,22 @@
+--- src/lib/fluidsynth/Makefile.in	2006-02-11 21:49:29.000000000 +0100
++++ src/lib/fluidsynth/Makefile.in	2006-04-11 10:10:34.000000000 +0200
+@@ -65,9 +65,10 @@
+ all: $(LIBDEST)
+ 
+ $(LIBDEST):	$(OBJ)
+-	libtool --mode=link gcc -g -O -o $(LIBBASENAME).la $(LTOBJ) \
+-                     -rpath /usr/lib $(LIBS)
++#	libtool --mode=link gcc -g -O -o $(LIBBASENAME).la $(LTOBJ) \
++#                     -rpath /usr/lib $(LIBS)
+ ##	$(CC) -nostartfiles -shared -Wl,-soname,$(LIBBASENAME).so.1 -o $(LIBDEST) $(OBJ) -L/usr/lib $(LIBS)
++	libtool --mode=link gcc -nostartfiles -shared -Wl,-soname,$(LIBBASENAME).so.1 -o $(LIBDEST) $(OBJ) -L/usr/lib $(LIBS)
+ ##
+ ## use this for testing with a custom version of libfluidsynth
+ ##
+@@ -119,4 +120,4 @@
+ .PHONY: clean
+ clean:
+ 	rm -rf $(LIBDEST) $(JNIHEADERS) *.o *~
+-	libtool --mode=clean $(RM_F) $(LTOBJ) $(LIBBASENAME).la
+\ Kein Zeilenumbruch am Dateiende.
++	libtool --mode=clean $(RM_F) $(LTOBJ) $(LIBBASENAME).la

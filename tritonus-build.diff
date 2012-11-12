@@ -1,0 +1,18 @@
+--- build.xml.old	2008-09-22 23:45:02.000000000 +0300
++++ build.xml	2008-09-22 23:45:02.000000000 +0300
+@@ -3,14 +3,10 @@
+      run the following command:
+      ant -f build-dtd.xml
+ -->
+-<!DOCTYPE project SYSTEM "project.dtd" [
+-<!ENTITY common SYSTEM "build-common.xml">
+-]>
+-
+ <project name="tritonus" default="dist" basedir=".">
+ 
+ 
+-  &common;
++  <import file="build-common.xml" />
+ 
+ 
+   <target name="compile" depends="prepare">

@@ -1,0 +1,17 @@
+--- build-common.xml.old	2008-09-22 23:04:57.000000000 +0300
++++ build-common.xml	2008-09-22 23:04:57.000000000 +0300
+@@ -5,7 +5,7 @@
+      This file is included by build.xml and build-debug.xml.
+ -->
+   <!--taskdef name="sablecc" classname="org.sablecc.ant.taskdef.Sablecc"/-->
+-
++<project>
+ <target name="init">
+   <tstamp/>
+   <property name="src" value="${basedir}/src" />
+@@ -538,3 +538,4 @@
+ 	<zipfileset dir="src/lib/vorbis" includes="libtritonusvorbis.so" prefix="tritonus-vorbis-${version}"/>
+ 	</zip>
+ </target>
++</project>
+\ No newline at end of file

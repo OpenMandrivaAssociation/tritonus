@@ -1,0 +1,11 @@
+--- src/lib/alsa/Makefile.in	2003-11-08 20:50:38.000000000 +0100
++++ src/lib/alsa/Makefile.in	2006-11-30 21:12:28.000000000 +0100
+@@ -10,7 +10,7 @@
+ OSNAME=@OSNAME@
+ ARCHNAME=@ARCHNAME@
+ CC=@CC@
+-CPPFLAGS=-g -Wall -Werror -I$(JAVADIR)/include -I$(JAVADIR)/include/$(OSNAME) -fPIC -D_REENTRANT #-pedantic
++CPPFLAGS=-g -Wall -I$(JAVADIR)/include -I$(JAVADIR)/include/$(OSNAME) -fPIC -D_REENTRANT #-pedantic
+ INSTALL = @INSTALL@
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_DATA = @INSTALL_DATA@
