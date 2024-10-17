@@ -15,7 +15,7 @@
 
 Name:			tritonus
 Summary:		Tritonus - A implementation of the Java Sound API
-URL:			http://www.tritonus.org/
+URL:			https://www.tritonus.org/
 Group:			Development/Java
 Version:		0.3.7
 Release:		%mkrel 0.0.%{_cvs_version}.1
