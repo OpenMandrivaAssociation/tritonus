@@ -34,6 +34,11 @@ Patch3:			%{name}-src-lib-alsa-constants_check.h.diff
 Patch4:			tritonus-removed-code.diff
 Patch5:			%{name}-build-common.diff
 Patch6:			%{name}-build.diff
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	ant
 BuildRequires:	java-rpmbuild
 BuildRequires:	libalsa-devel >= 0.9
